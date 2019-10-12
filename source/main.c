@@ -33,34 +33,41 @@ int main(void) {
 	    switch(state){
 
 		    case start:
-			    if(tmp == 0x01) {state = incriment;}
-			    else if(tmp == 0x02) {state = deccriment;}
-			    else 
+			    if(tmp == 0x01) {state = increment;}
+			    else if(tmp == 0x03) {state = reset;}
+			    else {state = wait;}
+		    case increment:
+			    if(tmp = 0x01) {state = increment;}
+			    else if(tmp == 0x02) {state = decrement;}
+			    else if(tmp == 0x03) {state = reset;}
+			    else {state = wait;}
 			    break;
-		    case B0_ON:
-			    if(tmp == 0x01) {state = waitB1;}
-			    else {state = B0_ON;}
+		    case decrement:
+			    if(tmp == 0x01) {state = increment;}
+			    else if (tmp == 0x02) {state = decrement;}
+			    else if(tmp == 0x03) {state = reset;}
+			    else (state = wait;)
 			    break;
-		    case waitB0:
-			    if(tmp == 0x01) {state = waitB0;}
-			    else {state = B0_ON;}
-			    break;
-		    case B1_ON:
-			    if(tmp == 0x01) {state = waitB0;}
-			    else {state = B1_ON;}
-			    break;
-		    case waitB1:
-			    if(tmp == 0x01) {state = waitB1;}
-			    else {state = B1_ON;}
-			    break;
+		    case wait:
+			    if(tmp == 0x01) {state = increment;}
+                            else if(tmp == 0x02) {state = decrement;}
+                            else if(tmp == 0x03) {state = reset;}
+			    else {state = wait;}
+                            break;
+		    case reset:
+			    if(tmp == 0x01) {state = increment;}
+                            else if(tmp == 0x02) {state = decrement;}
+                            else if(tmp == 0x03) {state = reset;}
+			    else {state = wait;}
+                            break;
 		    default:
-			    state = B0_ON;
+			    state = wait;
 			    break;
 	    }
 
 	    switch(state){
 	
-		    case B0_ON:
+		    case :
 			    LED_0 = 0x01;
 			    LED_1 = 0x00;
 			    break;
