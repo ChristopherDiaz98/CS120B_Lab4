@@ -15,24 +15,27 @@
 int main(void) {
     /* Insert DDR and PORT initializations */
     DDRA = 0x00;	PORTA = 0xFF;
-    DDRB = 0xFF;	PORTB = 0x00; 
+    DDRC = 0xFF;	PORTC = 0x00; 
 
     /* Insert your solution below */
     unsigned char tmp = 0x00;
-    unsigned char LED_0 = 0x00;
-    unsigned char LED_1 = 0x00;
-    enum States {start,B0_ON,waitB0,B1_ON,waitB1} state;
+    unsigned char cnt = 0x00;
+    unsigned char inc = 0x00;
+    unsigned char dec = 0x00;
+    enum States {start,increment,decriment,wait,reset} state;
 
     while (1) {
 
 	    tmp = PINA & 0xFF;
-	    LED_0 = 0x00;
-	    LED_1 = 0x00;
+	    inc = 0x00;
+	    dec = 0x00;
 
 	    switch(state){
 
 		    case start:
-			    state = B0_ON;
+			    if(tmp == 0x01) {state = incriment;}
+			    else if(tmp == 0x02) {state = deccriment;}
+			    else 
 			    break;
 		    case B0_ON:
 			    if(tmp == 0x01) {state = waitB1;}
@@ -77,7 +80,7 @@ int main(void) {
 			    break;
 	    }
 
-	    PORTB = LED_0 | LED_1;
+	    PORTC = LED_0 | LED_1;
     }
     return 1;
 }
