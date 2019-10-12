@@ -21,7 +21,7 @@ int main(void) {
     unsigned char tmp = 0x00;
     unsigned char LED_0 = 0x00;
     unsigned char LED_1 = 0x00;
-    enum States {start,B0_ON,B1_ON} state;
+    enum States {start,B0_ON,waitB0,B1_ON,waitB1} state;
 
     while (1) {
 
@@ -38,8 +38,16 @@ int main(void) {
 			    if(tmp == 0x01) {state = B1_ON;}
 			    else {state = B0_ON;}
 			    break;
+		    case waitB0:
+			    if(tmp == 0x01) {state = waitB0;}
+			    else {state = B0_ON;}
+			    break;
 		    case B1_ON:
 			    if(tmp == 0x01) {state = B0_ON;}
+			    else {state = B1_ON;}
+			    break;
+		    case waitB1:
+			    if(tmp == 0x01) {state = waitB1;}
 			    else {state = B1_ON;}
 			    break;
 		    default:
@@ -53,9 +61,19 @@ int main(void) {
 			    LED_0 = 0x01;
 			    LED_1 = 0x00;
 			    break;
+		    case waitB0:
+			    LED_0 = 0x01;
+			    LED_1 = 0x01;
+			    break;
 		    case B1_ON:
 			    LED_0 = 0x00;
 			    LED_1 = 0x02;
+			    break;
+		    case waitB1:
+			    LED_0 = 0x00;
+			    LED_1 = 0x02;
+			    break;
+		    default:
 			    break;
 	    }
 
