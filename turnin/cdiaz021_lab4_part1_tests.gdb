@@ -39,7 +39,8 @@ echo Running all tests..."\n\n
 #checkResult
 
 # Add tests below
-# Test sequence from start: A0, !A0 => PORTB: 0x02, state = B1_ON
+# 
+Test sequence from start: A0, !A0 => PORTB: 0x02, state = B1_ON
 test "PINA: 0x01, 0x00 => PORTB: 0x02, state: B1_ON"
 set state = B0_ON
 continue 2
