@@ -39,10 +39,11 @@ echo Running all tests..."\n\n
 #checkResult
 
 # Add tests below
-# 
-Test sequence from start: A0, !A0 => PORTB: 0x02, state = B1_ON
+
+#
+#Test sequence from start: A0, !A0 => PORTB: 0x02, state = B1_ON
 test "PINA: 0x01, 0x00 => PORTB: 0x02, state: B1_ON"
-set state = B0_ON
+set state = start
 continue 2
 setPINA 0x01
 continue 2
@@ -55,11 +56,11 @@ checkResult
 test "PINA: 0x01 => PORTB: 0x02, state: waitB1"
 set state = B0_ON
 continue 2
-setPINA x01
+setPINA 0x01
 continue 2
-expectORTB 0x02
+expectPORTB 0x02
 expect state waitB1
-checResult
+checkResult
 
 
 test "PINA: 0x01, 0x00, 0x01 => PORTB: 0x01, state: waitB0"
@@ -93,7 +94,7 @@ checkResult
 test "PINA: 0x01, 0x00, 0x01, 0x00, 0x01 => PORTB: 0x02, state: waitB1"
 set state = B0_ON
 continue 2
-setPINA 0x0
+setPINA 0x01
 continue 2
 setPINA 0x00
 continue 2

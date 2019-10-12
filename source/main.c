@@ -35,7 +35,7 @@ int main(void) {
 			    state = B0_ON;
 			    break;
 		    case B0_ON:
-			    if(tmp == 0x01) {state = B1_ON;}
+			    if(tmp == 0x01) {state = waitB1;}
 			    else {state = B0_ON;}
 			    break;
 		    case waitB0:
@@ -43,7 +43,7 @@ int main(void) {
 			    else {state = B0_ON;}
 			    break;
 		    case B1_ON:
-			    if(tmp == 0x01) {state = B0_ON;}
+			    if(tmp == 0x01) {state = waitB0;}
 			    else {state = B1_ON;}
 			    break;
 		    case waitB1:
