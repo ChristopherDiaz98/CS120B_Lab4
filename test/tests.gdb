@@ -69,17 +69,17 @@ set state = LOCKED
 continue 2
 setPINA 0x04
 continue 2
-expect state WAIT
+expect state WAITY
 setPINA 0x00
 continue 2
 expect state YBUTTON
 setPINA 0x04
 continue 2
-expect state LOCKED
+expect state WAITL
 setPINA 0x00
 continue 2
 expect state LOCKED
-setPINA 0x02
+setPINA 0x01
 continue 2
 expectPORTB 0x00
 expect state LOCKED

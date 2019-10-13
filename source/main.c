@@ -14,7 +14,7 @@
 
 unsigned char tmpA;
 unsigned char tmpB;
-enum States {START, LOCKED, WAIT, YBUTTON, UNLOCKED} state;
+enum States {START, WAITL, LOCKED, WAITY, YBUTTON, UNLOCKED} state;
 
 void tick() {
     
@@ -24,19 +24,23 @@ void tick() {
 	case START:
 		state = LOCKED;
 		break;
+	case WAITL:
+		if(tmpA == 0x00) {state = LOCKED;}
+		else {state = WAITL;}
+		break;
 	case LOCKED:
-	 	if (tmpA == 0x04) {state = WAIT;}
+	 	if (tmpA == 0x04) {state = WAITY;}
 		else {state = LOCKED;}
 		break;
-	case WAIT:
+	case WAITY:
 		if (tmpA == 0x00) {state = YBUTTON;}
-		else if (tmpA == 0x04) {state = WAIT;}
+		else if (tmpA == 0x04) {state = WAITY;}
 		else {state = LOCKED;}
 		break;
 	case YBUTTON:
 		if (tmpA == 0x02) {state = UNLOCKED;}
 		else if (tmpA == 0x00) {state = YBUTTON;}
-		else {state = LOCKED;}
+		else {state = WAITL;}
 		break;
 	case UNLOCKED:
 		if (tmpA == 0x80) {state = LOCKED;}
@@ -48,10 +52,13 @@ void tick() {
 		
     }
     switch (state) {
-        case LOCKED:
+        case WAITL:
+		tmpB = 0x00;
+		break;
+	case LOCKED:
 		tmpB = 0x00;		
                 break;
-        case WAIT:
+        case WAITY:
 		tmpB = 0x00;
 		break;
 	case YBUTTON:
