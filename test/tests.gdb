@@ -40,72 +40,49 @@ echo Running all tests..."\n\n
 
 # Add tests below
 
-#
-#Test sequence from start: A0, !A0 => PORTB: 0x02, state = B1_ON
-test "PINA: 0x01, 0x00 => PORTB: 0x02, state: B1_ON"
-set state = start
+test "PINA: 0x04, 0x00, 0x02 => PORTB: 0x01, state: UNLOCKED"
+set state = LOCKED
 continue 2
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2 
-expectPORTB 0x02
-expect state B1_ON
-checkResult
-#
-test "PINA: 0x01 => PORTB: 0x02, state: waitB1"
-set state = B0_ON
-continue 2
-setPINA 0x01
-continue 2
-expectPORTB 0x02
-expect state waitB1
-checkResult
-
-
-test "PINA: 0x01, 0x00, 0x01 => PORTB: 0x01, state: waitB0"
-set state = B0_ON
-continue 2
-setPINA 0x01
+setPINA 0x04
 continue 2
 setPINA 0x00
 continue 2
-setPINA 0x01
+setPINA 0x02
 continue 2
 expectPORTB 0x01
-expect state waitB0
+expect state UNLOCKED
 checkResult
-#
-test "PINA: 0x01, 0x00, 0x01, 0x00 => PORTB: 0x01, state: B0_ON"
-set state = B0_ON
+
+test "PINA: 0x04, 0x02 => PORTB: 0x00, state: LOCKED"
+set state = LOCKED
 continue 2
-setPINA 0x01
+setPINA 0x04
 continue 2
-setPINA 0x00
+setPINA 0x02
 continue 2
-setPINA 0x01
-continue 2
-setPINA 0x00
-continue 2
-expectPORTB 0x01
-expect state B0_ON
+expectPORTB 0x00
+expect state LOCKED
 checkResult
-#
-test "PINA: 0x01, 0x00, 0x01, 0x00, 0x01 => PORTB: 0x02, state: waitB1"
-set state = B0_ON
+
+test "PINA: 0x04, 0x00, 0x04, 0x00, 0x02 => PORTB: 0x00, state: LOCKED"
+set state = LOCKED
 continue 2
-setPINA 0x01
+setPINA 0x04
 continue 2
+expect state WAIT
 setPINA 0x00
 continue 2
-setPINA 0x01
+expect state YBUTTON
+setPINA 0x04
 continue 2
+expect state LOCKED
 setPINA 0x00
 continue 2
-setPINA 0x01
+expect state LOCKED
+setPINA 0x02
 continue 2
-expectPORTB 0x02
-expect state waitB1
+expectPORTB 0x00
+expect state LOCKED
 checkResult
 
 # Report on how many tests passed/tests ran

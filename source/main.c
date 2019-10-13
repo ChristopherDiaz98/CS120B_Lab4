@@ -1,7 +1,7 @@
 /*	Author: cdiaz021
  *  Partner(s) Name: Jacob Halvorson
  *	Lab Section:
- *	Assignment: Lab 4  Exercise 1
+ *	Assignment: Lab 4  Exercise 3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -14,20 +14,28 @@
 
 unsigned char tmpA;
 unsigned char tmpB;
-enum States {LOCKED, POUND, UNLOCKED} state;
+enum States {START, LOCKED, WAIT, YBUTTON, UNLOCKED} state;
 
 void tick() {
     
     tmpA = 0xFF & PINA;
 
     switch (state) { //state transitions
+	case START:
+		state = LOCKED;
+		break;
 	case LOCKED:
-	 	if (tmpA == 0x04) {state = POUND;}
+	 	if (tmpA == 0x04) {state = WAIT;}
 		else {state = LOCKED;}
 		break;
-	case POUND:
+	case WAIT:
+		if (tmpA == 0x00) {state = YBUTTON;}
+		else if (tmpA == 0x04) {state = WAIT;}
+		else {state = LOCKED;}
+		break;
+	case YBUTTON:
 		if (tmpA == 0x02) {state = UNLOCKED;}
-		else if (tmpA == 0x00) {state = POUND;}
+		else if (tmpA == 0x00) {state = YBUTTON;}
 		else {state = LOCKED;}
 		break;
 	case UNLOCKED:
@@ -43,7 +51,11 @@ void tick() {
         case LOCKED:
 		tmpB = 0x00;		
                 break;
-        case POUND:
+        case WAIT:
+		tmpB = 0x00;
+		break;
+	case YBUTTON:
+		tmpB = 0x00;
                 break;
         case UNLOCKED:
 		tmpB = 0x01;
